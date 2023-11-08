@@ -1,0 +1,167 @@
+unit TanqueDAO;
+
+interface
+
+uses FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, FireDAC.UI.Intf, clTanque, ConexaoDAO,
+  SysUtils, FireDAC.VCLUI.Wait;
+
+type
+  TTanqueDAO = class
+  private
+    { private declarations }
+  public
+    function ObterTanques(descricao: String = '*') : TFDQuery;
+    function ObterTanquePorId(id :Integer) : TTanque;
+    procedure Salvar(Tanque: TTanque);
+    procedure Excluir(Tanque: TTanque);
+  end;
+
+implementation
+
+{ TTanqueDAO }
+
+procedure TTanqueDAO.Excluir(Tanque: TTanque);
+var
+  Query: TFDQuery;
+begin
+  try
+    TConexaoDAO.CriarQuery(Query);
+
+    Query.SQL.Add('DELETE FROM TB_TANQUE ');
+    Query.SQL.Add(' WHERE ID = :ID');
+    Query.ParamByName('ID').AsInteger := Tanque.Id;
+    Query.ExecSQL();
+
+    TConexaoDAO.DestruirQuery(Query);
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+function TTanqueDAO.ObterTanques(descricao: String = '*'): TFDQuery;
+var
+  Query: TFDQuery;
+begin
+  try
+    TConexaoDAO.CriarQuery(Query);
+
+    Query.SQL.Add('SELECT T.ID, ');
+    Query.SQL.Add('  T.DESCRICAO, ');
+    Query.SQL.Add('  T.CAPACIDAD, ');
+    Query.SQL.Add('  T.TIPO ');
+    Query.SQL.Add('FROM TB_TANQUE T');
+    if descricao <> '*' then
+      Query.SQL.Add(' WHERE T.DESCRICAO LIKE ''%'+Trim(descricao)+'%''');
+    Query.SQL.Add(' ORDER BY T.ID');
+
+    Query.Open();
+
+    if not(Query.IsEmpty) then
+      Result := Query
+    else
+    begin
+      Result := nil;
+      TConexaoDAO.DestruirQuery(Query);
+    end;
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+function TTanqueDAO.ObterTanquePorId(Id: Integer): TTanque;
+var
+  Query: TFDQuery;
+  Tanque: TTanque;
+begin
+  try
+    TConexaoDAO.CriarQuery(Query);
+
+    Query.SQL.Add('SELECT T.ID, ');
+    Query.SQL.Add('  T.DESCRICAO, ');
+    Query.SQL.Add('  T.CAPACIDAD, ');
+    Query.SQL.Add('  T.TIPO ');
+    Query.SQL.Add('FROM TB_TANQUE T');
+    Query.SQL.Add(' WHERE T.ID = :ID');
+    Query.ParamByName('ID').AsInteger := Id;
+    Query.Open();
+
+    if not(Query.IsEmpty) then
+    begin
+      Tanque := TTanque.Create;
+      Tanque.Id := Query.FieldByName('ID').AsInteger;
+      Tanque.Descricao := Trim(Query.FieldByName('DESCRICAO').AsString);
+      Tanque.Capacidade := Query.FieldByName('CAPACIDAD').AsFloat;
+      case (Query.FieldByName('Tipo').AsInteger) of
+        0 : Tanque.Tipo := ttGasolina;
+        1 : Tanque.Tipo := ttOleo;
+      end;
+
+      Result := Tanque;
+    end
+    else
+    begin
+      Result := nil;
+    end;
+
+    TConexaoDAO.DestruirQuery(Query);
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+procedure TTanqueDAO.Salvar(Tanque: TTanque);
+var
+  Query: TFDQuery;
+begin
+  try
+    TConexaoDAO.CriarQuery(Query);
+
+    if (Tanque.Id = 0) then
+    begin
+      Query.SQL.Add('INSERT INTO TB_TANQUE');
+      Query.SQL.Add('           (DESCRICAO,');
+      Query.SQL.Add('            CAPACIDAD,');
+      Query.SQL.Add('            TIPO)');
+      Query.SQL.Add('     VALUES(:DESCRICAO,');
+      Query.SQL.Add('            :CAPACIDAD,');
+      Query.SQL.Add('            :TIPO)');
+    end
+    else
+    begin
+      Query.SQL.Add('UPDATE TB_TANQUE');
+      Query.SQL.Add('   SET DESCRICAO = :DESCRICAO, ');
+      Query.SQL.Add('       CAPACIDAD = :CAPACIDAD, ');
+      Query.SQL.Add('       TIPO = :TIPO ');
+      Query.SQL.Add(' WHERE ID = :ID');
+
+      Query.ParamByName('ID').AsInteger := Tanque.Id;
+    end;
+
+    Query.ParamByName('DESCRICAO').AsString := Tanque.Descricao;
+    Query.ParamByName('CAPACIDAD').AsFloat := Tanque.Capacidade;
+
+    case (Tanque.Tipo) of
+      ttGasolina : Query.ParamByName('TIPO').AsInteger := 0;
+      ttOleo : Query.ParamByName('TIPO').AsInteger := 1;
+    end;
+
+    Query.ExecSQL();
+
+    TConexaoDAO.DestruirQuery(Query);
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+end.

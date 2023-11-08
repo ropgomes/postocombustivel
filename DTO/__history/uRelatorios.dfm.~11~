@@ -1,0 +1,504 @@
+object fRelatorios: TfRelatorios
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  Caption = 'Controle de Abastecimento - [Relat'#243'rio]'
+  ClientHeight = 530
+  ClientWidth = 922
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  Position = poMainFormCenter
+  OnShow = FormShow
+  TextHeight = 15
+  object PageControlRel: TPageControl
+    Left = 0
+    Top = 0
+    Width = 922
+    Height = 530
+    ActivePage = tabFiltro
+    Align = alClient
+    TabOrder = 0
+    ExplicitWidth = 628
+    ExplicitHeight = 442
+    object tabFiltro: TTabSheet
+      Caption = 'Filtros:'
+      object Label1: TLabel
+        Left = 29
+        Top = 22
+        Width = 265
+        Height = 15
+        Caption = 'Informe o per'#237'odo de apura'#231#227'o do abastecimento:'
+      end
+      object Label2: TLabel
+        Left = 29
+        Top = 57
+        Width = 61
+        Height = 15
+        Caption = 'Data Inicial:'
+      end
+      object Label3: TLabel
+        Left = 297
+        Top = 57
+        Width = 55
+        Height = 15
+        Caption = 'Data Final:'
+      end
+      object btPesquisar: TSpeedButton
+        Left = 231
+        Top = 117
+        Width = 121
+        Height = 28
+        Caption = 'Salvar'
+        Glyph.Data = {
+          F6060000424DF606000000000000360000002800000018000000180000000100
+          180000000000C0060000120B0000120B00000000000000000000FFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFCCCC
+          CCC5C5C6FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFCBC9C65B54483F3C38BFBFBFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFCBCAC7585143574D3B544E41CFCFCFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFCBCAC7585143554C3A585142CBCAC6FFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFCBCBCB959595909090
+          9090909191919D9D9DE5E5E5FFFFFFFFFFFFCAC8C5585142554C3A585143CCCB
+          C7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD4D4D38E8E8E59
+          5A5C52565B4F545A4F545A52565B57585B525252949494AEAEAF5E5B52544B39
+          595143CBC9C7FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD0D0
+          D068696B5F63686E6A64947F64AA8B65AA8B65947F646F6A645E62675A5B5C61
+          6162666666656159CAC9C6FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFD4D4D3656769636466A28663E6AC64FCB865FFBB65FFBB65FBB865E7AD
+          65A487636061635F6163636363B5B5B6FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFBFBFB797A7B656768BB9464FFBB66FCB660F7B05AF6B05B
+          F6B05BF7B05AFCB45BFFBB64BD95646162635A5B5C9B9B9BFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC2C2C25C6064A48764FFBB65F8B460F7
+          C485FAD6AAFAD4A4FAD4A4FAD5A6F9D2A0F9B86AFFBB63A487645E6267535354
+          E3E3E3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8D8F91726E68E7AC
+          64FCB865F5AF5AF9D5A9FFFCF8FEF7EDFEF7EDFEF9F1FEF3E5F6B96FFCB762E8
+          AD656F6A6457585A9B9B9BFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          8D9296978268FBB865F7B665F5B05BF9D3A4FEF7EDFDF2E3FDF2E3FDF4E6FDEE
+          DBF6B96EF7B462FBB865947E6453565B929292FFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFF8C9197AC8E69FFBB65F6B565F5B05BF9D3A4FEF7EDFDF2E3
+          FDF2E3FDF4E6FDEEDBF6B96EF6B462FFBB65A98B654F535A919191FFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8F949AAC8E69FFBB65F6B565F5B05BF9
+          D3A4FEF7EDFDF2E3FDF2E3FDF4E6FDF0DFF6B96FF6B362FFBB65A98B654F535A
+          959595FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8D9196978268FBB8
+          65F7B665F5B05BF9D3A4FEF7EDFDF2E3FDF2E3FDF6ECFCE8CDF6B769F7B563FB
+          B865947E6453575B949494FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          A1A3A5736E68E6AB64FCB865F5AF5AF9D5A9FFFCF8FEF7EEFEF9F2FCEAD3F7BE
+          78F6B360FCB865E7AD656F6B655B5C5FC1C1C1FFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFE6E7E75F6368A48865FFBB65F8B460F7C484FAD6A8F9D4A4
+          F9D4A5F7BE78F6B15DF8B665FFBC65A387635F6469818282FFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFA4A5A6686A6BBA9363FFBB66FC
+          B660F7B05AF6B05AF6B05AF7B460FCB965FFBB65BC94646465665E5F60D0D0D0
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF9F9F98F91
+          93686A6BA58865E6AB64FBB865FFBB65FFBB65FBB865E8AD65A4876365676863
+          6567CECECEFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFBFBFBA5A6A762656A726D67978268AC8E69AC8E69978168736E
+          685D6166858687D4D4D4FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE9E9EAA5A7A98D91968B9096
+          8C91978C8F94959698C4C4C5FCFCFCFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+          FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+        Margin = 15
+        Spacing = 6
+        OnClick = btPesquisarClick
+      end
+      object dtInicial: TDatePicker
+        Left = 96
+        Top = 48
+        Date = 45238.000000000000000000
+        DateFormat = 'dd/mm/yyyy'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -20
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        TabOrder = 0
+      end
+      object dtFinal: TDatePicker
+        Left = 360
+        Top = 48
+        Date = 45238.000000000000000000
+        DateFormat = 'dd/mm/yyyy'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -20
+        Font.Name = 'Segoe UI'
+        Font.Style = []
+        TabOrder = 1
+      end
+    end
+    object tabRelatorioDiario: TTabSheet
+      Caption = 'tabRelatorioDiario'
+      ImageIndex = 1
+      object RLReportAbastecimentoBombas: TRLReport
+        Left = -4
+        Top = -17
+        Width = 794
+        Height = 1123
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -13
+        Font.Name = 'Arial'
+        Font.Style = []
+        object RLBandTitle: TRLBand
+          Left = 38
+          Top = 38
+          Width = 718
+          Height = 67
+          BandType = btTitle
+          object RLDrawTitle: TRLDraw
+            Left = 0
+            Top = 0
+            Width = 718
+            Height = 67
+          end
+          object RLLabelPostoABC: TRLLabel
+            Left = 6
+            Top = 15
+            Width = 92
+            Height = 16
+            Caption = 'Posto Rodolfo'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'Arial'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object RLSystemInfoData: TRLSystemInfo
+            Left = 606
+            Top = 15
+            Width = 39
+            Height = 16
+            Text = ''
+          end
+          object RLLabelData: TRLLabel
+            Left = 567
+            Top = 15
+            Width = 37
+            Height = 16
+            Caption = 'Data:'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'Arial'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object RLSystemInfoPagina: TRLSystemInfo
+            Left = 606
+            Top = 36
+            Width = 87
+            Height = 16
+            Info = itPageNumber
+            Text = ''
+          end
+          object RLLabelPagina: TRLLabel
+            Left = 554
+            Top = 36
+            Width = 53
+            Height = 16
+            Caption = 'Pagina:'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'Arial'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object RLLabelImpressaoAbastecimentos: TRLLabel
+            Left = 6
+            Top = 36
+            Width = 183
+            Height = 16
+            Caption = 'Apura'#231#227'o de Abastecimento'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'Arial'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+        end
+        object RLGroup: TRLGroup
+          Left = 38
+          Top = 105
+          Width = 718
+          Height = 88
+          DataFields = 'Tanque'
+          object RLBandDetail: TRLBand
+            Left = 0
+            Top = 48
+            Width = 718
+            Height = 20
+            object RLDrawBomba: TRLDraw
+              Left = 0
+              Top = -1
+              Width = 543
+              Height = 21
+            end
+            object RLLabelBomba: TRLLabel
+              Left = 6
+              Top = 2
+              Width = 529
+              Height = 16
+              AutoSize = False
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+            end
+            object RLDrawDataAbastecimento: TRLDraw
+              Left = 540
+              Top = -1
+              Width = 80
+              Height = 21
+            end
+            object RLLabelDataAbastecimento: TRLLabel
+              Left = 546
+              Top = 2
+              Width = 70
+              Height = 16
+              Alignment = taCenter
+              AutoSize = False
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+            end
+            object RLDrawValor: TRLDraw
+              Left = 619
+              Top = -1
+              Width = 99
+              Height = 21
+            end
+            object RLLabelValor: TRLLabel
+              Left = 625
+              Top = 2
+              Width = 90
+              Height = 16
+              Alignment = taRightJustify
+              AutoSize = False
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+            end
+          end
+          object RLBandHeader: TRLBand
+            Left = 0
+            Top = 0
+            Width = 718
+            Height = 48
+            BandType = btHeader
+            object RLDrawColunaBomba: TRLDraw
+              Left = 0
+              Top = 27
+              Width = 543
+              Height = 21
+            end
+            object RLDrawGrupo: TRLDraw
+              Left = 0
+              Top = 7
+              Width = 718
+              Height = 21
+            end
+            object RLLabelTanqueGrupo: TRLLabel
+              Left = 6
+              Top = 9
+              Width = 56
+              Height = 16
+              Caption = 'Tanque:'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object RLLabelGrupo: TRLLabel
+              Left = 61
+              Top = 9
+              Width = 86
+              Height = 16
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+            end
+            object RLDrawColunaData: TRLDraw
+              Left = 540
+              Top = 27
+              Width = 80
+              Height = 21
+            end
+            object RLLabelColunaData: TRLLabel
+              Left = 546
+              Top = 30
+              Width = 69
+              Height = 16
+              Alignment = taCenter
+              AutoSize = False
+              Caption = 'Data'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object RLLabelColunaBomba: TRLLabel
+              Left = 6
+              Top = 30
+              Width = 49
+              Height = 16
+              Alignment = taJustify
+              Caption = 'Bomba'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object RLDrawColunaValor: TRLDraw
+              Left = 619
+              Top = 27
+              Width = 99
+              Height = 21
+            end
+            object RLLabelColunaValor: TRLLabel
+              Left = 625
+              Top = 30
+              Width = 90
+              Height = 16
+              Alignment = taCenter
+              AutoSize = False
+              Caption = 'Valor'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+          end
+          object RLBandSummary01: TRLBand
+            Left = 0
+            Top = 68
+            Width = 718
+            Height = 20
+            BandType = btSummary
+            object RLDrawValorTotalTanqueCaption: TRLDraw
+              Left = 0
+              Top = -1
+              Width = 620
+              Height = 21
+            end
+            object RLDrawValorTotalTanque: TRLDraw
+              Left = 619
+              Top = -1
+              Width = 99
+              Height = 21
+            end
+            object RLLabelValorTotalTanqueCaption: TRLLabel
+              Left = 486
+              Top = 2
+              Width = 130
+              Height = 16
+              Alignment = taCenter
+              Caption = 'Valor Total Tanque:'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Arial'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object RLLabelValorTotalTanque: TRLLabel
+              Left = 625
+              Top = 2
+              Width = 90
+              Height = 16
+              Alignment = taRightJustify
+              AutoSize = False
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clBlack
+              Font.Height = -13
+              Font.Name = 'Arial'
+              Font.Style = []
+              ParentFont = False
+            end
+          end
+        end
+        object RLBandSummary02: TRLBand
+          Left = 38
+          Top = 193
+          Width = 718
+          Height = 26
+          BandType = btSummary
+          object RLDrawValorTotalCaption: TRLDraw
+            Left = 0
+            Top = 5
+            Width = 620
+            Height = 21
+          end
+          object RLDrawValorTotal: TRLDraw
+            Left = 619
+            Top = 5
+            Width = 99
+            Height = 21
+          end
+          object RLLabelValorTotalCaption: TRLLabel
+            Left = 538
+            Top = 8
+            Width = 78
+            Height = 16
+            Alignment = taCenter
+            Caption = 'Valor Total:'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'Arial'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
+          object RLLabelValorTotal: TRLLabel
+            Left = 625
+            Top = 8
+            Width = 90
+            Height = 16
+            Alignment = taRightJustify
+            AutoSize = False
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'Arial'
+            Font.Style = []
+            ParentFont = False
+          end
+        end
+      end
+    end
+  end
+end

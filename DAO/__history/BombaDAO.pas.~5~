@@ -1,0 +1,99 @@
+unit BombaDAO;
+
+interface
+
+uses FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, FireDAC.UI.Intf, TanqueDAO, clBomba, ConexaoDAO,
+  SysUtils;
+
+type
+  TBombaDAO = class
+  private
+    { private declarations }
+  public
+    function ObterBombas(descricao: String = '') : TFDQuery;
+    function ObterBombaPorId(id :Integer) : TBomba;
+    procedure Salvar(Bomba: TBomba);
+    procedure Excluir(Bomba: TBomba);
+  end;
+
+implementation
+
+{ TBombaDAO }
+
+procedure TBombaDAO.Excluir(Bomba: TBomba);
+var
+  Query: TFDQuery;
+begin
+  try
+    TConexaoDAO.CriarQuery(Query);
+
+    Query.SQL.Add('DELETE FROM BOMBA ');
+    Query.SQL.Add(' WHERE ID = :ID');
+    Query.ParamByName('ID').AsInteger := Bomba.Id;
+    Query.ExecSQL();
+
+    TConexaoDAO.DestruirQuery(Query);
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+function TBombaDAO.ObterBombaPorId(id: Integer): TBomba;
+var
+  Query: TFDQuery;
+  Bomba: TBomba;
+  TanqueDAO: TTanqueDAO;
+begin
+  try
+    TConexaoDAO.CriarQuery(Query);
+
+    Query.SQL.Add('SELECT B.ID, ');
+    Query.SQL.Add('  B.DESCRICAO, ');
+    Query.SQL.Add('  B.VLR_LITRO, ');
+    Query.SQL.Add('  B.ID_TANQUE ');
+    Query.SQL.Add('FROM BOMBA B');
+    Query.SQL.Add(' WHERE B.ID = :ID');
+    Query.ParamByName('ID').AsInteger := Id;
+    Query.Open();
+
+    if not(Query.IsEmpty) then
+    begin
+      TanqueDAO := TTanqueDAO.Create;
+      Bomba := TBomba.Create;
+      Bomba.Id := Query.FieldByName('ID').AsInteger;
+      Bomba.Descricao := Trim(Query.FieldByName('DESCRICAO').AsString);
+      Bomba.VlrLitro := Query.FieldByName('VLR_LITRO').AsFloat;
+      Bomba.Tanque := TanqueDAO.ObterTanquePorId(Query.FieldByName('ID_TANQUE').AsInteger);
+
+      FreeAndNil(TanqueDAO);
+      Result := Bomba;
+    end
+    else
+    begin
+      Result := nil;
+    end;
+
+    TConexaoDAO.DestruirQuery(Query);
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+function TBombaDAO.ObterBombas(descricao: String): TFDQuery;
+begin
+
+end;
+
+procedure TBombaDAO.Salvar(Bomba: TBomba);
+begin
+
+end;
+
+end.

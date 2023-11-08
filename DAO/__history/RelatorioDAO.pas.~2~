@@ -1,0 +1,72 @@
+unit RelatorioDAO;
+
+interface
+
+uses FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, FireDAC.UI.Intf, ConexaoDAO,
+  SysUtils;
+
+type
+  TRelatorioDAO = class
+  private
+    { private declarations }
+  public
+    function ObterApuracaoPorPeriodo(dataini, datafim: TDateTime) : TFDQuery;
+  end;
+
+implementation
+
+{ TRelatorioDAO }
+
+function TRelatorioDAO.ObterApuracaoPorPeriodo(dataini,
+  datafim: TDateTime): TFDQuery;
+var
+  Query: TFDQuery;
+begin
+  try
+    TConexaoDAO.CriarQuery(Query);
+
+    Query.SQL.Add('SELECT B.DESCRICAO AS BOMBA,');
+    Query.SQL.Add('      M.DTHR AS DATA, ');
+    Query.SQL.Add('      T.DESCRICAO AS TANQUE, ');
+    Query.SQL.Add('      M.VLR_TOTAL, ');
+    Query.SQL.Add('      M.LITROS, ');
+    Query.SQL.Add('      M.VLR_IMPOSTO ');
+    Query.SQL.Add('  FROM TB_MOVIMENTO M');
+    Query.SQL.Add(' INNER JOIN TB_BOMBA B');
+    Query.SQL.Add('    ON M.ID_BOMBA = B.ID');
+    Query.SQL.Add(' INNER JOIN TB_TANQUE T');
+    Query.SQL.Add('    ON B.ID = T.ID_TANQUE');
+    Query.SQL.Add(' WHERE DATE(substr(DTHR,7,4)||''-''||substr(DTHR,4,2)||''-''||substr(DTHR,1,2))' );
+    Query.SQL.Add(' BETWEEN DATE(:DATAINI) AND DATE(:DATAFIM) ');
+    Query.SQL.Add(' ORDER BY b.Descricao');
+
+    Query.SQL.Add('SELECT B.ID, ');
+    Query.SQL.Add('  B.DESCRICAO, ');
+    Query.SQL.Add('  B.ID_TANQUE, ');
+    Query.SQL.Add('  T.TIPO ');
+    Query.SQL.Add('FROM TB_BOMBA B ');
+    Query.SQL.Add('INNER JOIN TB_TANQUE T ON B.ID_TANQUE = T.ID ');
+    if descricao <> '*' then
+      Query.SQL.Add(' WHERE B.DESCRICAO LIKE ''%'+Trim(descricao)+'%''');
+    Query.SQL.Add(' ORDER BY B.ID');
+
+    Query.Open();
+
+    if not(Query.IsEmpty) then
+      Result := Query
+    else
+    begin
+      Result := nil;
+      TConexaoDAO.DestruirQuery(Query);
+    end;
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+end.

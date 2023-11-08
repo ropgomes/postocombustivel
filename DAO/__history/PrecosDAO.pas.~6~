@@ -1,0 +1,71 @@
+unit PrecosDAO;
+
+interface
+
+uses FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, FireDAC.UI.Intf, clPrecos, ConexaoDAO,
+  SysUtils;
+
+type
+  TPrecosDAO = class
+  private
+    { private declarations }
+  public
+    function ObterPrecos: TPrecos;
+    procedure Salvar(Precos: TPrecos);
+  end;
+
+implementation
+
+{ TPrecosDAO }
+
+function TPrecosDAO.ObterPrecos: TPrecos;
+var
+  Query: TFDQuery;
+  Precos: TPrecos;
+begin
+  try
+    TConexaoDAO.CriarQuery(Query);
+
+    Query.SQL.Add('SELECT P.ID, ');
+    Query.SQL.Add('       P.VLR_LITRO_GAS, ');
+    Query.SQL.Add('       P.VLR_LITRO_OLE, ');
+    Query.SQL.Add('       P.VLR_IMPOSTO, ');
+    Query.SQL.Add('       P.VIGENTE ');
+    Query.SQL.Add('  FROM TB_PRECOS P');
+    Query.SQL.Add(' WHERE P.VIGENTE = 1');
+
+    Query.Open();
+
+    if not(Query.IsEmpty) then
+    begin
+      Precos := TPrecos.Create;
+      Precos.Id := Query.FieldByName('Id').AsInteger;
+      Precos.VlrLitroGas := Query.FieldByName('VLR_LITRO_GAS').AsCurrency;
+      Precos.VlrLitroOle := Query.FieldByName('VLR_LITRO_OLE').AsCurrency;
+      Precos.VlrImposto := Query.FieldByName('VLR_IMPOSTO').AsCurrency;
+      Precos.Vigente := Query.FieldByName('VIGENTE').AsInteger;
+
+      Result := Configuracao;
+    end
+    else
+    begin
+      Result := nil;
+    end;
+
+    TConexaoDAO.DestruirQuery(Query);
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+procedure TPrecosDAO.Salvar(Precos: TPrecos);
+begin
+
+end;
+
+end.

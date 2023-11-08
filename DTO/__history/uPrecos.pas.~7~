@@ -1,0 +1,55 @@
+unit uPrecos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.ImageList, Vcl.ImgList,
+  Vcl.Buttons, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TfPrecos = class(TForm)
+    ImageList: TImageList;
+    btCancelar: TSpeedButton;
+    btSalvar: TSpeedButton;
+    btNovo: TSpeedButton;
+    rgVigente: TRadioGroup;
+    edtVlrLitroOle: TEdit;
+    lblVlrLitroOle: TLabel;
+    edtVlrLitroGas: TEdit;
+    lblVlrLitroGas: TLabel;
+    edtId: TEdit;
+    lblCodigo: TLabel;
+    lblVlrImposto: TLabel;
+    edtVlrImposto: TEdit;
+    procedure btNovoClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fPrecos: TfPrecos;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfPrecos.btNovoClick(Sender: TObject);
+begin
+  try
+    edtId.Text := EmptyStr;
+    edtVlrLitroGas.Text := EmptyStr;
+    edtVlrLitroOle.Text := EmptyStr;
+    edtVlrImposto.Text := EmptyStr;
+    rbSim.IsChecked := True;
+    rbSim.IsChecked := False;
+  except on E: Exception do
+    begin
+      MessageBox(0, PWideChar(E.Message),'Atenção',MB_OK + MB_ICONERROR);
+    end;
+  end;
+end;
+
+end.

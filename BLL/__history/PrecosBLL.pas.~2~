@@ -1,0 +1,50 @@
+unit PrecosBLL;
+
+interface
+
+uses PrecosDAO, clPrecos, SysUtils;
+
+type
+  TMovimentoBLL = class
+  private
+    { private declarations }
+  public
+    function ObterPrecos: TPrecos;
+    procedure Salvar(Precos : TPrecos);
+  end;
+
+implementation
+
+{ TMovimentoBLL }
+
+function TMovimentoBLL.ObterPrecos: TPrecos;
+var
+  PrecosDAO: TPrecosDAO;
+begin
+  try
+    PrecosDAO := TPrecosDAO.Create;
+    Result := PrecosDAO.ObterPrecos();
+    FreeAndNil(PrecosDAO);
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+procedure TMovimentoBLL.Salvar(Precos: TPrecos);
+var
+  PrecosDAO: TPrecosDAO;
+begin
+  try
+    PrecosDAO := TPrecosDAO.Create;
+    PrecosDAO.Salvar(Precos);
+    FreeAndNil(PrecosDAO);
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+end.

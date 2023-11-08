@@ -1,0 +1,61 @@
+unit BombaDAO;
+
+interface
+
+uses FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, FireDAC.UI.Intf, clTanque, clBomba, ConexaoDAO,
+  SysUtils;
+
+type
+  TBombaDAO = class
+  private
+    { private declarations }
+  public
+    function ObterBombas(descricao: String = '') : TFDQuery;
+    function ObterBombaPorId(id :Integer) : TBomba;
+    procedure Salvar(Bomba: TBomba);
+    procedure Excluir(Bomba: TBomba);
+  end;
+
+implementation
+
+{ TBombaDAO }
+
+procedure TBombaDAO.Excluir(Bomba: TBomba);
+var
+  Query: TFDQuery;
+begin
+  try
+    TConexaoDAO.CriarQuery(Query);
+
+    Query.SQL.Add('DELETE FROM BOMBA ');
+    Query.SQL.Add(' WHERE ID = :ID');
+    Query.ParamByName('ID').AsInteger := Bomba.Id;
+    Query.ExecSQL();
+
+    TConexaoDAO.DestruirQuery(Query);
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+function TBombaDAO.ObterBombaPorId(id: Integer): TBomba;
+begin
+
+end;
+
+function TBombaDAO.ObterBombas(descricao: String): TFDQuery;
+begin
+
+end;
+
+procedure TBombaDAO.Salvar(Bomba: TBomba);
+begin
+
+end;
+
+end.

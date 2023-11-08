@@ -1,0 +1,173 @@
+unit uBombas;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.ImageList, Vcl.ImgList, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, Vcl.StdCtrls, Vcl.Buttons, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.UI.Intf,
+  clTanque, TanqueBLL, clBomba, BombaBLL;
+
+type
+  TfBombas = class(TForm)
+    ImageList: TImageList;
+    lblCodigo: TLabel;
+    edtId: TEdit;
+    lblDescricao: TLabel;
+    edtDescricao: TEdit;
+    cbTanques: TComboBox;
+    Label1: TLabel;
+    StringGrid: TStringGrid;
+    btNovo: TSpeedButton;
+    btSalvar: TSpeedButton;
+    btCancelar: TSpeedButton;
+    procedure StringGridSelectCell(Sender: TObject; ACol, ARow: Integer;
+      var CanSelect: Boolean);
+    procedure FormShow(Sender: TObject);
+    procedure btSalvarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    function ExtrairTanque : Integer;
+    procedure ObterBombas;
+  end;
+
+var
+  fBombas: TfBombas;
+
+implementation
+
+{$R *.dfm}
+
+{ TfBombas }
+
+procedure TfBombas.btSalvarClick(Sender: TObject);
+var
+  BombaBLL : TBombaBLL;
+  TanqueBLL : TTanqueBLL;
+  Bomba : TBomba;
+  idTanque : Integer;
+begin
+  try
+    BombaBLL := TBombaBLL.Create;
+    TanqueBLL := TTanqueBLL.Create;
+    Bomba := TBomba.Create;
+    if edtId.Text = '' then
+      Bomba.Id := 0
+    else
+      Bomba.Id := StrToInt(edtId.Text);
+    Bomba.Descricao := edtDescricao.Text;
+    Bomba.Tanque := TanqueBLL.ObterTanquePorId(ExtrairTanque);
+    BombaBLL.Salvar(Bomba);
+    ObterBombas;
+    MessageBox(0, PWideChar('Dados salvos com sucesso!'),'Atenção',MB_OK + MB_ICONEXCLAMATION);
+    btCancelar.OnClick(nil);
+  except
+    on E: Exception do
+      MessageBox(0, PWideChar(E.Message),'Atenção',MB_OK + MB_ICONERROR);
+  end;
+end;
+
+function TfBombas.ExtrairTanque: Integer;
+begin
+  if cbTanques.Items.Count <= 0 then
+    Result := 0
+  else
+    begin
+      Result := StrToInt(Trim(Copy(cbTanques.Text, 0,
+                          Pos('-',cbTanques.Text) - 1)));
+    end;
+end;
+
+procedure TfBombas.FormShow(Sender: TObject);
+var
+  TanqueBLL : TTanqueBLL;
+  Query : TFDQuery;
+begin
+  try
+    TanqueBLL := TTanqueBLL.Create;
+    Query := TanqueBLL.ObterTanques('*');
+
+    if Assigned(Query) then
+    begin
+      Query.First;
+      while not Query.Eof do
+      begin
+        cbTanques.Items.Add(Query.Fields[0].AsString + ' - ' + Query.Fields[1].AsString);
+        Query.Next;
+      end;
+    end;
+
+    ObterBombas;
+  except
+    on E: Exception do
+      MessageBox(0, PWideChar(E.Message),'Atenção',MB_OK + MB_ICONERROR);
+  end;
+end;
+
+procedure TfBombas.ObterBombas;
+var
+  BombaBLL : TBombaBLL;
+  Query : TFDQuery;
+begin
+  try
+    BombaBLL := TBombaBLL.Create;
+    Query := BombaBLL.ObterBombas('*');
+
+    if Assigned(Query) then
+    begin
+      StringGrid.Cols[0].Text := 'Código';
+      StringGrid.Cols[1].Text := 'Descrição';
+      StringGrid.RowCount := Query.RecordCount;
+
+      Query.First;
+      while not Query.Eof do
+      begin
+        StringGrid.Cells[0, Query.RecNo - 1] := Query.Fields[0].AsString;
+        StringGrid.Cells[1, Query.RecNo - 1] := Query.Fields[1].AsString;
+        Query.Next;
+      end;
+    end;
+  except on E: Exception do
+    begin
+      MessageBox(0, PWideChar(E.Message),'Atenção',MB_OK + MB_ICONERROR);
+    end;
+  end;
+end;
+
+procedure TfBombas.StringGridSelectCell(Sender: TObject; ACol, ARow: Integer;
+  var CanSelect: Boolean);
+var
+  BombaBLL : TBombaBLL;
+  Bomba : TBomba;
+  iRegistros : Integer;
+  iTanque : Integer;
+begin
+  try
+    BombaBLL := TBombaBLL.Create;
+    Bomba := TBomba.Create;
+    Bomba := BombaBLL.ObterBombaPorId(StrToInt(StringGrid.Cells[0,ARow]));
+    edtId.Text := IntToStr(Bomba.Id);
+    edtDescricao.Text := Bomba.Descricao;
+
+    for iRegistros := 0 to cbTanques.Items.Count - 1 do
+    begin
+      iTanque := StrToInt(Trim(Copy(cbTanques.Items[iRegistros], 0,
+                          Pos('-', cbTanques.Items[iRegistros]) - 1)));
+      if iTanque = Bomba.Tanque.Id then
+      begin
+        cbTanques.ItemIndex := iRegistros;
+        Exit;
+      end;
+    end;
+  except on E: Exception do
+    begin
+      MessageBox(0, PWideChar(E.Message),'Atenção',MB_OK + MB_ICONERROR);
+    end;
+  end;
+end;
+
+end.

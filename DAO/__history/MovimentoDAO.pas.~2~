@@ -1,0 +1,17 @@
+unit MovimentoDAO;
+
+interface
+
+uses clMovimento;
+
+type
+  TMovimentoDAO = class
+  private
+    { private declarations }
+  public
+    procedure Salvar(Movimento: TMovimento);
+  end;
+
+implementation
+
+end.

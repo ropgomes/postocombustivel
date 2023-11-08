@@ -1,0 +1,76 @@
+unit clBomba;
+
+interface
+
+uses clTanque;
+
+type
+  TBomba = class
+  private
+    function getVlrLitro: Double;
+    function getDescricao: String;
+    function getId: Integer;
+    function getTanque: TTanque;
+    procedure setVlrLitro(const Value: Double);
+    procedure setDescricao(const Value: String);
+    procedure setId(const Value: Integer);
+    procedure setTanque(const Value: TTanque);
+    protected
+      _id : Integer;
+      _descricao : String;
+      _vlrlitro : Double;
+      _tanque : TTanque;
+
+    public
+      property Id : Integer read getId write setId;
+      property Descricao : String read getDescricao write setDescricao;
+      property VlrLitro : Double read getVlrLitro write setVlrLitro;
+      property Tanque : TTanque read getTanque write setTanque;
+  end;
+
+implementation
+
+{ TTBomba }
+
+function TTBomba.getVlrLitro: Double;
+begin
+  Result := _vlrlitro;
+end;
+
+function TTBomba.getDescricao: String;
+begin
+  Result := _descricao;
+end;
+
+function TTBomba.getId: Integer;
+begin
+  Result :=  _id;
+end;
+
+function TTBomba.getTanque: TTanque;
+begin
+  Result := _tanque;
+end;
+
+procedure TTBomba.setVlrLitro(const Value: Double);
+begin
+  _capacidade := Value;
+end;
+
+procedure TTBomba.setDescricao(const Value: String);
+begin
+  _descricao := Value;
+end;
+
+procedure TTBomba.setId(const Value: Integer);
+begin
+  _id := Value;
+end;
+
+procedure TTBomba.setTanque(const Value: TTanque);
+begin
+  _tipo := Value;
+end;
+
+end.
+

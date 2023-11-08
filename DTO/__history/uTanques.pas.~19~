@@ -1,0 +1,149 @@
+unit uTanques;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.ImageList, Vcl.ImgList,
+  Vcl.Buttons, Vcl.Grids, Vcl.StdCtrls, Vcl.ExtCtrls, clTanque, TanqueBLL,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, FireDAC.UI.Intf;
+
+type
+  TfTanques = class(TForm)
+    ImageList: TImageList;
+    btCancelar: TSpeedButton;
+    btSalvar: TSpeedButton;
+    btNovo: TSpeedButton;
+    StringGrid: TStringGrid;
+    lblCodigo: TLabel;
+    edtId: TEdit;
+    lblDescricao: TLabel;
+    edtDescricao: TEdit;
+    lblCapacidade: TLabel;
+    edtCapacidade: TEdit;
+    rgTipo: TRadioGroup;
+    procedure btNovoClick(Sender: TObject);
+    procedure btSalvarClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure StringGridSelectCell(Sender: TObject; ACol, ARow: Integer;
+      var CanSelect: Boolean);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    procedure ObterTanques;
+  end;
+
+var
+  fTanques: TfTanques;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfTanques.btNovoClick(Sender: TObject);
+begin
+  try
+    edtId.Text := EmptyStr;
+    edtDescricao.Text := EmptyStr;
+    edtCapacidade.Text := EmptyStr;
+    rgTipo.ItemIndex:= -1;
+  except on E: Exception do
+    begin
+      MessageBox(0, PWideChar(E.Message),'Atenção',MB_OK + MB_ICONERROR);
+    end;
+  end;
+end;
+
+procedure TfTanques.btSalvarClick(Sender: TObject);
+var
+  TanqueBLL : TTanqueBLL;
+  Tanque : TTanque;
+begin
+  try
+    TanqueBLL := TTanqueBLL.Create;
+    Tanque := TTanque.Create;
+    if edtId.Text = '' then
+      Tanque.Id := 0
+    else
+      Tanque.Id := StrToInt(edtId.Text);
+    Tanque.Descricao := edtDescricao.Text;
+    Tanque.Capacidade := StrToFloat(edtCapacidade.Text);
+    if rgTipo.ItemIndex = 0 then
+      Tanque.Tipo := ttGasolina
+    else
+      Tanque.Tipo := ttOleo;
+    TanqueBLL.Salvar(Tanque);
+    ObterTanques;
+    MessageBox(0, PWideChar('Dados salvos com sucesso!'),'Atenção',MB_OK + MB_ICONEXCLAMATION);
+    btCancelar.OnClick(nil);
+  except
+    on E: Exception do
+      MessageBox(0, PWideChar(E.Message),'Atenção',MB_OK + MB_ICONERROR);
+  end;
+end;
+
+procedure TfTanques.FormShow(Sender: TObject);
+begin
+  ObterTanques;
+end;
+
+procedure TfTanques.ObterTanques;
+var
+  TanqueBLL : TTanqueBLL;
+  Query : TFDQuery;
+begin
+  try
+    TanqueBLL := TTanqueBLL.Create;
+    Query := TanqueBLL.ObterTanques('*');
+
+    if Assigned(Query) then
+    begin
+      StringGrid.Cols[0].Text := 'Código';
+      StringGrid.Cols[1].Text := 'Descrição';
+      StringGrid.ColWidths[0] := 60;
+      StringGrid.ColWidths[1] := 250;
+      StringGrid.RowCount := StringGrid.FixedRows + Query.RecordCount;
+
+      Query.First;
+      while not Query.Eof do
+      begin
+        StringGrid.Cells[0, Query.RecNo] := Query.Fields[0].AsString;
+        StringGrid.Cells[1, Query.RecNo] := Query.Fields[1].AsString;
+        Query.Next;
+      end;
+    end;
+  except on E: Exception do
+    begin
+      MessageBox(0, PWideChar(E.Message),'Atenção',MB_OK + MB_ICONERROR);
+    end;
+  end;
+end;
+
+procedure TfTanques.StringGridSelectCell(Sender: TObject; ACol, ARow: Integer;
+  var CanSelect: Boolean);
+var
+  TanqueBLL : TTanqueBLL;
+  Tanque : TTanque;
+begin
+  try
+    TanqueBLL := TTanqueBLL.Create;
+    Tanque := TanqueBLL.ObterTanquePorId(StrToInt(StringGrid.Cells[0,ARow]));
+    edtId.Text := IntToStr(Tanque.Id);
+    edtDescricao.Text := Tanque.Descricao;
+    edtCapacidade.Text := FloatToStr(Tanque.Capacidade);
+    if (Tanque.Tipo = ttGasolina) then
+      rgTipo.ItemIndex := 0
+    else
+      rgTipo.ItemIndex := 1;
+  except on E: Exception do
+    begin
+      MessageBox(0, PWideChar(E.Message),'Atenção',MB_OK + MB_ICONERROR);
+    end;
+  end;
+end;
+
+end.

@@ -1,0 +1,107 @@
+unit uRelatorios;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ComCtrls, Vcl.StdCtrls,
+  Vcl.WinXPickers, Vcl.Buttons, RLReport, RelatoriosBLL, FireDAC.Stan.Intf,
+  FireDAC.Stan.Option, FireDAC.Stan.Param, FireDAC.Stan.Error, FireDAC.DatS,
+  FireDAC.Phys.Intf, FireDAC.DApt.Intf, FireDAC.Stan.Async, FireDAC.DApt,
+  Data.DB, FireDAC.Comp.DataSet, FireDAC.Comp.Client, FireDAC.UI.Intf;
+
+type
+  TfRelatorios = class(TForm)
+    PageControlRel: TPageControl;
+    tabFiltro: TTabSheet;
+    tabRelatorioDiario: TTabSheet;
+    dtInicial: TDatePicker;
+    dtFinal: TDatePicker;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    btPesquisar: TSpeedButton;
+    RLReportAbastecimentoBombas: TRLReport;
+    RLBandTitle: TRLBand;
+    RLDrawTitle: TRLDraw;
+    RLLabelPostoABC: TRLLabel;
+    RLSystemInfoData: TRLSystemInfo;
+    RLLabelData: TRLLabel;
+    RLSystemInfoPagina: TRLSystemInfo;
+    RLLabelPagina: TRLLabel;
+    RLLabelImpressaoAbastecimentos: TRLLabel;
+    RLGroup: TRLGroup;
+    RLBandDetail: TRLBand;
+    RLDrawBomba: TRLDraw;
+    RLLabelBomba: TRLLabel;
+    RLDrawDataAbastecimento: TRLDraw;
+    RLLabelDataAbastecimento: TRLLabel;
+    RLDrawValor: TRLDraw;
+    RLLabelValor: TRLLabel;
+    RLBandHeader: TRLBand;
+    RLDrawColunaBomba: TRLDraw;
+    RLDrawGrupo: TRLDraw;
+    RLLabelTanqueGrupo: TRLLabel;
+    RLLabelGrupo: TRLLabel;
+    RLDrawColunaData: TRLDraw;
+    RLLabelColunaData: TRLLabel;
+    RLLabelColunaBomba: TRLLabel;
+    RLDrawColunaValor: TRLDraw;
+    RLLabelColunaValor: TRLLabel;
+    RLBandSummary01: TRLBand;
+    RLDrawValorTotalTanqueCaption: TRLDraw;
+    RLDrawValorTotalTanque: TRLDraw;
+    RLLabelValorTotalTanqueCaption: TRLLabel;
+    RLLabelValorTotalTanque: TRLLabel;
+    RLBandSummary02: TRLBand;
+    RLDrawValorTotalCaption: TRLDraw;
+    RLDrawValorTotal: TRLDraw;
+    RLLabelValorTotalCaption: TRLLabel;
+    RLLabelValorTotal: TRLLabel;
+    procedure FormShow(Sender: TObject);
+    procedure btPesquisarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fRelatorios: TfRelatorios;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfRelatorios.btPesquisarClick(Sender: TObject);
+var
+  RelatoriosBLL : TRelatoriosBLL;
+  Query : TFDQuery;
+  vDataIni : String;
+  vDataFim : String;
+begin
+  try
+    vDataIni := FormatDateTime('YYYY-MM-DD', dtInicial.Date);
+    vDataFim := FormatDateTime('YYYY-MM-DD', dtFinal.Date);
+
+    RelatoriosBLL := TRelatoriosBLL.Create;
+    Query := RelatoriosBLL.ObterApuracaoPorPeriodo(vDataIni,vDataFim);
+    if Assigned(Query) then
+    begin
+     
+    end;
+  except on E: Exception do
+    begin
+      MessageBox(0, PWideChar(E.Message),'Atenção',MB_OK + MB_ICONERROR);
+    end;
+  end;
+end;
+
+procedure TfRelatorios.FormShow(Sender: TObject);
+begin
+  PageControlRel.Pages[1].TabVisible := False;
+  Self.Height := 294;
+  Self.Width := 680;
+end;
+
+end.

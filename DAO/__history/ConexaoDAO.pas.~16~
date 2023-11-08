@@ -1,0 +1,81 @@
+unit ConexaoDAO;
+
+interface
+
+uses FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
+  FireDAC.Phys, FireDAC.FMXUI.Wait, FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef,
+  FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteWrapper.Stat, SysUtils,
+  Vcl.Forms, Windows;
+
+type
+  TConexaoDAO = class
+    private
+      class function VerificarBancoExiste() : String;
+
+    public
+      class function Conectar() : TFDConnection;
+      class procedure CriarQuery(var query : TFDQuery);
+      class procedure DestruirQuery(var query : TFDQuery);
+  end;
+
+implementation
+
+{ TConexaoDAO }
+
+class function TConexaoDAO.Conectar() : TFDConnection;
+var
+  conexao : TFDConnection;
+begin
+  try
+    if Assigned(conexao) then
+      Result := conexao;
+
+    conexao := TFDConnection.Create(Self);
+    conexao.LoginPrompt := false;
+    conexao.Params.Values['Database'] := VerificarBancoExiste();
+    conexao.Params.Values['DriverID'] := 'SQLite';
+    conexao.Connected := True;
+
+    Result := conexao;
+  except on E: Exception do
+    raise Exception.Create(E.Message);
+  end;
+end;
+
+class procedure TConexaoDAO.CriarQuery(var query: TFDQuery);
+begin
+  try
+    query := TFDQuery.Create(nil);
+    query.Connection := Conectar;
+    query.Close;
+    query.SQL.Clear;
+  except on E: Exception do
+    raise Exception.Create(E.Message);
+  end;
+end;
+
+class procedure TConexaoDAO.DestruirQuery(var query: TFDQuery);
+begin
+  try
+    query.Close;;
+    FreeAndNil(query);
+  except on E: Exception do
+    raise Exception.Create(E.Message);
+  end;
+end;
+
+class function TConexaoDAO.VerificarBancoExiste: String;
+var
+  vCaminho : string;
+begin
+  vCaminho := ExtractFileDir(Application.ExeName) + '\DB\ControleAbastecimento.db';
+  if FileExists(vCaminho) then
+    Result := vCaminho
+  else
+    raise Exception.Create('Não foi localizado o banco no caminho: ' + vCaminho);
+end;
+
+end.

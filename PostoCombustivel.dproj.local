@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+  <Transactions>
+    <Transaction>2023/11/07 23:11:00.092,=C:\Users\ropgo\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/11/07 23:12:07.881,C:\Users\ropgo\Downloads\PostoCombustivel\DTO\uPrincipal.dfm=C:\Users\ropgo\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2023/11/07 23:12:07.881,C:\Users\ropgo\Downloads\PostoCombustivel\DTO\uPrincipal.pas=C:\Users\ropgo\OneDrive\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2023/11/07 23:12:19.539,C:\Users\ropgo\Downloads\PostoCombustivel\PostoCombustivel.dproj=C:\Users\ropgo\OneDrive\Documentos\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2023/11/07 23:22:41.371,=C:\Users\ropgo\Downloads\PostoCombustivel\CLASS\clMovimento.pas</Transaction>
+    <Transaction>2023/11/07 23:22:41.389,=C:\Users\ropgo\Downloads\PostoCombustivel\CLASS\clPrecos.pas</Transaction>
+    <Transaction>2023/11/07 23:22:41.408,=C:\Users\ropgo\Downloads\PostoCombustivel\CLASS\clBomba.pas</Transaction>
+    <Transaction>2023/11/07 23:22:41.448,=C:\Users\ropgo\Downloads\PostoCombustivel\CLASS\clTanque.pas</Transaction>
+    <Transaction>2023/11/07 23:23:02.332,=C:\Users\ropgo\Downloads\PostoCombustivel\DAO\MovimentoDAO.pas</Transaction>
+    <Transaction>2023/11/07 23:23:02.352,=C:\Users\ropgo\Downloads\PostoCombustivel\DAO\BombaDAO.pas</Transaction>
+    <Transaction>2023/11/07 23:23:02.393,=C:\Users\ropgo\Downloads\PostoCombustivel\DAO\TanqueDAO.pas</Transaction>
+    <Transaction>2023/11/07 23:23:02.412,=C:\Users\ropgo\Downloads\PostoCombustivel\DAO\PrecosDAO.pas</Transaction>
+    <Transaction>2023/11/07 23:23:02.462,=C:\Users\ropgo\Downloads\PostoCombustivel\DAO\ConexaoDAO.pas</Transaction>
+    <Transaction>2023/11/07 23:23:20.468,=C:\Users\ropgo\Downloads\PostoCombustivel\BLL\BombaBLL.pas</Transaction>
+    <Transaction>2023/11/07 23:23:20.512,=C:\Users\ropgo\Downloads\PostoCombustivel\BLL\TanqueBLL.pas</Transaction>
+    <Transaction>2023/11/07 23:23:20.543,=C:\Users\ropgo\Downloads\PostoCombustivel\BLL\PrecosBLL.pas</Transaction>
+    <Transaction>2023/11/07 23:23:20.562,=C:\Users\ropgo\Downloads\PostoCombustivel\BLL\MovimentoBLL.pas</Transaction>
+    <Transaction>2023/11/07 23:24:38.379,=C:\Users\ropgo\Downloads\PostoCombustivel\Unit2.pas</Transaction>
+    <Transaction>2023/11/07 23:24:50.109,C:\Users\ropgo\Downloads\PostoCombustivel\DTO\uBombas.dfm=C:\Users\ropgo\Downloads\PostoCombustivel\Unit2.dfm</Transaction>
+    <Transaction>2023/11/07 23:24:50.109,C:\Users\ropgo\Downloads\PostoCombustivel\DTO\uBombas.pas=C:\Users\ropgo\Downloads\PostoCombustivel\Unit2.pas</Transaction>
+    <Transaction>2023/11/07 23:25:49.601,=C:\Users\ropgo\Downloads\PostoCombustivel\Unit3.pas</Transaction>
+    <Transaction>2023/11/07 23:26:23.889,C:\Users\ropgo\Downloads\PostoCombustivel\DTO\uTanques.dfm=C:\Users\ropgo\Downloads\PostoCombustivel\Unit3.dfm</Transaction>
+    <Transaction>2023/11/07 23:26:23.889,C:\Users\ropgo\Downloads\PostoCombustivel\DTO\uTanques.pas=C:\Users\ropgo\Downloads\PostoCombustivel\Unit3.pas</Transaction>
+    <Transaction>2023/11/07 23:26:35.307,=C:\Users\ropgo\Downloads\PostoCombustivel\Unit3.pas</Transaction>
+    <Transaction>2023/11/07 23:26:59.790,C:\Users\ropgo\Downloads\PostoCombustivel\DTO\uPrecos.dfm=C:\Users\ropgo\Downloads\PostoCombustivel\Unit3.dfm</Transaction>
+    <Transaction>2023/11/07 23:26:59.790,C:\Users\ropgo\Downloads\PostoCombustivel\DTO\uPrecos.pas=C:\Users\ropgo\Downloads\PostoCombustivel\Unit3.pas</Transaction>
+    <Transaction>2023/11/07 23:27:16.875,=C:\Users\ropgo\Downloads\PostoCombustivel\Unit3.pas</Transaction>
+    <Transaction>2023/11/07 23:28:03.403,C:\Users\ropgo\Downloads\PostoCombustivel\DTO\uMovimento.dfm=C:\Users\ropgo\Downloads\PostoCombustivel\Unit3.dfm</Transaction>
+    <Transaction>2023/11/07 23:28:03.403,C:\Users\ropgo\Downloads\PostoCombustivel\DTO\uMovimento.pas=C:\Users\ropgo\Downloads\PostoCombustivel\Unit3.pas</Transaction>
+    <Transaction>2023/11/08 01:19:18.993,=C:\Users\ropgo\Downloads\PostoCombustivel\Unit2.pas</Transaction>
+    <Transaction>2023/11/08 01:19:59.550,C:\Users\ropgo\Downloads\PostoCombustivel\DTO\uRelatorios.dfm=C:\Users\ropgo\Downloads\PostoCombustivel\Unit2.dfm</Transaction>
+    <Transaction>2023/11/08 01:19:59.550,C:\Users\ropgo\Downloads\PostoCombustivel\DTO\uRelatorios.pas=C:\Users\ropgo\Downloads\PostoCombustivel\Unit2.pas</Transaction>
+    <Transaction>2023/11/08 01:35:14.046,=C:\Users\ropgo\Downloads\PostoCombustivel\Unit1.pas</Transaction>
+    <Transaction>2023/11/08 01:35:31.997,C:\Users\ropgo\Downloads\PostoCombustivel\DAO\RelatorioDAO.pas=C:\Users\ropgo\Downloads\PostoCombustivel\Unit1.pas</Transaction>
+    <Transaction>2023/11/08 01:52:14.560,=C:\Users\ropgo\Downloads\PostoCombustivel\Unit1.pas</Transaction>
+    <Transaction>2023/11/08 01:52:47.217,C:\Users\ropgo\Downloads\PostoCombustivel\BLL\RelatoriosBLL.pas=C:\Users\ropgo\Downloads\PostoCombustivel\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>

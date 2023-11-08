@@ -1,0 +1,12 @@
+unit BombaDAO;
+
+interface
+
+type
+  TBombaDAO = class
+
+  end;
+
+implementation
+
+end.

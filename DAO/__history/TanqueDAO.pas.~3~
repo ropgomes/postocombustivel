@@ -1,0 +1,205 @@
+unit TanqueDAO;
+
+interface
+
+uses FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, FireDAC.UI.Intf, clTanque, ConexaoDAO,
+  SysUtils;
+
+type
+  TTanqueDAO = class
+  private
+    { private declarations }
+  public
+    function ObterTanques(descricao: String = '') : TFDQuery;
+    function ObterTanquePorId(id :Integer) : TTanque;
+    procedure Salvar(Tanque: TTanque);
+    procedure Excluir(Tanque: TTanque);
+  end;
+
+implementation
+
+{ TTanqueDAO }
+
+procedure TTanqueDAO.Excluir(Tanque: TTanque);
+var
+  Query: TFDQuery;
+begin
+  try
+    TConexaoDAO.CriarQuery(Query);
+
+    Query.SQL.Add('DELETE FROM TANQUE ');
+    Query.SQL.Add(' WHERE ID = :ID');
+    Query.ParamByName('ID').AsInteger := Tanque.Id;
+    Query.ExecSQL();
+
+    TConexaoDAO.DestruirQuery(Query);
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+function TTanqueDAO.ObterTanques(Descricao: String = ''): TFDQuery;
+var
+  Query: TFDQuery;
+begin
+  try
+    TConexaoDAO.CriarQuery(Query);
+
+    Query.SQL.Add('SELECT T.ID, ');
+    Query.SQL.Add('  T.DESCRICAO, ');
+    Query.SQL.Add('  T.CAPACIDAD, ');
+    Query.SQL.Add('  T.TIPO ');
+    Query.SQL.Add('FROM TANQUE T');
+    Query.SQL.Add(' WHERE T.DESCRICAO LIKE ''%'+Trim(Descricao)+'%''');
+    Query.SQL.Add(' ORDER BY T.ID');
+
+    Query.Open();
+
+    if not(Query.IsEmpty) then
+      Result := Query
+    else
+    begin
+      Result := nil;
+      TConexaoDAO.DestruirQuery(Query);
+    end;
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+function TTanqueDAO.ObterTanquePorId(Id: Integer): TTanque;
+var
+  Query: TFDQuery;
+  Tanque: TTanque;
+begin
+  try
+    TConexaoDAO.CriarQuery(Query);
+
+    Query.SQL.Add('SELECT T.ID, ');
+    Query.SQL.Add('  T.DESCRICAO, ');
+    Query.SQL.Add('  T.CAPACIDAD, ');
+    Query.SQL.Add('  T.TIPO ');
+    Query.SQL.Add('FROM TANQUE T');
+    Query.SQL.Add(' WHERE T.ID = :ID');
+    Query.ParamByName('ID').AsInteger := Id;
+    Query.Open();
+
+    if not(Query.IsEmpty) then
+    begin
+      Tanque := TTanque.Create;
+      Tanque.Id := Query.FieldByName('ID').AsInteger;
+      Tanque.Descricao := Trim(Query.FieldByName('DESCRICAO').AsString);
+      Tanque.Capacidade := Query.FieldByName('CAPACIDAD').AsFloat;
+      case (Query.FieldByName('Tipo').AsInteger) of
+        0 : Tanque.Tipo := ttGasolina;
+        1 : Tanque.Tipo := ttOleo;
+      end;
+
+      Result := Tanque;
+    end
+    else
+    begin
+      Result := nil;
+    end;
+
+    TConexaoDAO.DestruirQuery(Query);
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+procedure TTanqueDAO.Salvar(Tanque: TTanque);
+var
+  Query: TSQLQuery;
+begin
+  try
+    TUtil.CriarQuery(Query);
+
+    if (Tanque.Id = 0) then
+    begin
+      Query.SQL.Add('INSERT INTO Tanque');
+      Query.SQL.Add('           (Descricao');
+      Query.SQL.Add('           ,Tipo)');
+      Query.SQL.Add('     VALUES(:Descricao');
+      Query.SQL.Add('           ,:Tipo)');
+    end
+    else
+    begin
+      Query.SQL.Add('UPDATE Tanque');
+      Query.SQL.Add('   SET Descricao = :Descricao');
+      Query.SQL.Add('      ,Tipo = :Tipo');
+      Query.SQL.Add(' WHERE Id = :Id');
+
+      Query.ParamByName('Id').AsInteger := Tanque.Id;
+    end;
+
+    Query.ParamByName('Descricao').AsString := Tanque.Descricao;
+
+    case (Tanque.Tipo) of
+      Gasolina : Query.ParamByName('Tipo').AsInteger := 0;
+      OleoDiesel : Query.ParamByName('Tipo').AsInteger := 1;
+    end;
+
+    Query.ExecSQL();
+
+    TUtil.DestruirQuery(Query);
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+function TTanqueDAO.UltimoTanque: TTanque;
+var
+  Query: TSQLQuery;
+  Tanque: TTanque;
+begin
+  try
+    TUtil.CriarQuery(Query);
+
+    Query.SQL.Add('SELECT t.Id');
+    Query.SQL.Add('      ,t.Descricao');
+    Query.SQL.Add('      ,t.Tipo');
+    Query.SQL.Add('  FROM Tanque t');
+    Query.SQL.Add(' WHERE t.Id = (SELECT MAX(Id)');
+    Query.SQL.Add('                 FROM Tanque)');
+
+    Query.Open();
+
+    if not(Query.IsEmpty) then
+    begin
+      Tanque := TTanque.Create;
+      Tanque.Id := Query.FieldByName('Id').AsInteger;
+      Tanque.Descricao := Trim(Query.FieldByName('Descricao').AsString);
+
+      case (Query.FieldByName('Tipo').AsInteger) of
+        0 : Tanque.Tipo := Gasolina;
+        1 : Tanque.Tipo := OleoDiesel;
+      end;
+
+      Result := Tanque;
+    end
+    else
+    begin
+      Result := nil;
+    end;
+
+    TUtil.DestruirQuery(Query);
+  except on E: Exception do
+    begin
+      raise Exception.Create(E.Message);
+    end;
+  end;
+end;
+
+end.

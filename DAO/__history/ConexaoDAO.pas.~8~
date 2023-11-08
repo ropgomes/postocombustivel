@@ -1,0 +1,52 @@
+unit ConexaoDAO;
+
+interface
+
+uses FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, Data.DB, FireDAC.Comp.DataSet,
+  FireDAC.Comp.Client, FireDAC.UI.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool,
+  FireDAC.Phys, FireDAC.FMXUI.Wait, FireDAC.Phys.SQLite, FireDAC.Phys.SQLiteDef,
+  FireDAC.Stan.ExprFuncs, FireDAC.Phys.SQLiteWrapper.Stat, SysUtils,
+  Vcl.Forms, Windows;
+
+type
+  TConexaoDAO = class
+    private
+      class function VerificarBancoExiste() : Boolean;
+
+    public
+      class procedure Conectar(var conexao : TFDConnection);
+      class procedure CriarQuery(var query : TFDQuery);
+      class procedure DestruirQuery(var query : TFDQuery);
+  end;
+
+implementation
+
+{ TConexaoDAO }
+
+class procedure TConexaoDAO.Conectar(var conexao: TFDConnection);
+begin
+
+end;
+
+class procedure TConexaoDAO.CriarQuery(var query: TFDQuery);
+begin
+
+end;
+
+class procedure TConexaoDAO.DestruirQuery(var query: TFDQuery);
+begin
+
+end;
+
+class function TConexaoDAO.VerificarBancoExiste: Boolean;
+begin
+  try
+    Result := (FileExists(ExtractFileDir(Application.ExeName) + '\DB\ControleAbastecimento.db'));
+  except on E: Exception do
+    raise Exception.Create(E.Message);
+  end;
+end;
+
+end.

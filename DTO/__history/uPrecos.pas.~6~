@@ -1,0 +1,38 @@
+unit uPrecos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, System.ImageList, Vcl.ImgList,
+  Vcl.Buttons, Vcl.StdCtrls, Vcl.ExtCtrls;
+
+type
+  TfPrecos = class(TForm)
+    ImageList: TImageList;
+    btCancelar: TSpeedButton;
+    btSalvar: TSpeedButton;
+    btNovo: TSpeedButton;
+    rgVigente: TRadioGroup;
+    edtVlrLitroOle: TEdit;
+    lblVlrLitroOle: TLabel;
+    edtVlrLitroGas: TEdit;
+    lblVlrLitroGas: TLabel;
+    edtId: TEdit;
+    lblCodigo: TLabel;
+    lblVlrImposto: TLabel;
+    edtVlrImposto: TEdit;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  fPrecos: TfPrecos;
+
+implementation
+
+{$R *.dfm}
+
+end.
